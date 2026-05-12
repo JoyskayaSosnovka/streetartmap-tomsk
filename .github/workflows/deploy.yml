@@ -27,7 +27,7 @@ jobs:
       - name: Setup pnpm
         uses: pnpm/action-setup@v4
         with:
-          version: 9
+          version: 9.10.0
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -44,8 +44,6 @@ jobs:
       - name: Build
         run: pnpm build:nocheck
         env:
-          # Базовый путь под GitHub Pages: /<repo-name>/
-          # При кастомном домене — пустая строка или '/'.
           VITE_BASE_PATH: /streetartmap-tomsk/
 
       - name: Setup Pages
