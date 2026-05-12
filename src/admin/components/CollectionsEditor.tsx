@@ -279,7 +279,7 @@ export function CollectionsEditor(): JSX.Element {
                     border: 'none',
                     cursor: 'pointer',
                     borderRadius: 'var(--radius-sm)',
-                    flexShrink: '0',
+                    flexShrink: 0,
                   }}
                 />
                 <Input

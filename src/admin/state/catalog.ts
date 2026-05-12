@@ -23,7 +23,9 @@ const shaCache: Record<string, string> = {};
 async function loadJson<T>(filename: string): Promise<T[]> {
   const file = await getFile(repoOwner.value, repoName.value, `data/${filename}`);
   shaCache[filename] = file.sha;
-  const decoded = decodeURIComponent(escape(atob(file.content.replace(/\n/g, ''))));
+  const binary = atob(file.content.replace(/\n/g, ''));
+  const bytes = Uint8Array.from(binary, (c) => c.charCodeAt(0));
+  const decoded = new TextDecoder().decode(bytes);
   return JSON.parse(decoded) as T[];
 }
 

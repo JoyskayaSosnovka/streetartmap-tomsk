@@ -18,7 +18,10 @@ export async function putFile(
   sha: string,
   message: string,
 ): Promise<void> {
-  const encoded = btoa(unescape(encodeURIComponent(JSON.stringify(content, null, 2))));
+  const bytes = new TextEncoder().encode(JSON.stringify(content, null, 2));
+  let binary = '';
+  for (let i = 0; i < bytes.length; i++) binary += String.fromCharCode(bytes[i]!);
+  const encoded = btoa(binary);
   await request<unknown>(pat.value, `/repos/${owner}/${repo}/contents/${path}`, {
     method: 'PUT',
     body: JSON.stringify({ message, content: encoded, sha }),
