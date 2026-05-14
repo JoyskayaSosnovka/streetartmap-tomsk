@@ -85,9 +85,7 @@ export async function archiveRoute(id: string): Promise<void> {
   const login = githubLogin.value;
 
   const list = routesData.value.map((r) =>
-    r.id === id
-      ? { ...r, status: 'archived' as const, updated_at: now, updated_by: login }
-      : r,
+    r.id === id ? { ...r, status: 'archived' as const, updated_at: now, updated_by: login } : r,
   );
 
   await saveRoutesFile(list, `archive route: ${id}`);

@@ -1,6 +1,12 @@
 import { signal } from '@preact/signals';
 
-export type AdminSection = 'dashboard' | 'categories' | 'collections' | 'authors' | 'points' | 'routes';
+export type AdminSection =
+  | 'dashboard'
+  | 'categories'
+  | 'collections'
+  | 'authors'
+  | 'points'
+  | 'routes';
 
 export interface AdminRoute {
   section: AdminSection;
@@ -16,7 +22,14 @@ function parseHash(hash: string): AdminRoute {
   const section = parts[0] ?? '';
   const id = parts[1] ?? null;
 
-  const validSections: AdminSection[] = ['dashboard', 'categories', 'collections', 'authors', 'points', 'routes'];
+  const validSections: AdminSection[] = [
+    'dashboard',
+    'categories',
+    'collections',
+    'authors',
+    'points',
+    'routes',
+  ];
 
   if (!validSections.includes(section as AdminSection)) {
     return { section: 'dashboard', id: null };

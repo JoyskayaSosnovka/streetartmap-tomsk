@@ -20,15 +20,11 @@ export async function computeGeometryHash(
   const anchorsStr = pointIds
     .map((id) => {
       const p = pointsById.get(id);
-      return p
-        ? `${id}:${p.coords.lat.toFixed(6)},${p.coords.lng.toFixed(6)}`
-        : `${id}:?`;
+      return p ? `${id}:${p.coords.lat.toFixed(6)},${p.coords.lng.toFixed(6)}` : `${id}:?`;
     })
     .join('|');
 
-  const viaStr = viaWaypoints
-    .map(([lat, lng]) => `${lat.toFixed(6)},${lng.toFixed(6)}`)
-    .join('|');
+  const viaStr = viaWaypoints.map(([lat, lng]) => `${lat.toFixed(6)},${lng.toFixed(6)}`).join('|');
 
   const payload = `ANCHORS:${anchorsStr}|VIA:${viaStr}`;
 

@@ -24,9 +24,9 @@ export function loadPoints(): void {
     .then((file) => {
       shaCache[FILENAME] = file.sha;
       const decoded = atob(file.content.replace(/\s/g, ''));
-      const parsed = JSON.parse(new TextDecoder().decode(
-        Uint8Array.from(decoded, (c) => c.charCodeAt(0)),
-      )) as Point[];
+      const parsed = JSON.parse(
+        new TextDecoder().decode(Uint8Array.from(decoded, (c) => c.charCodeAt(0))),
+      ) as Point[];
       pointsData.value = parsed;
       pointsLoadState.value = 'ready';
     })

@@ -28,7 +28,7 @@ interface PointDraft {
   tags: string[];
   title: string;
   description: string;
-  author_id: string;       // '' = not set
+  author_id: string; // '' = not set
   year_created: number | null;
   dimensions: string;
   materials: string[];
@@ -157,9 +157,7 @@ function CollectionChips({ selected, onChange }: CollectionChipsProps): JSX.Elem
   const collections = collectionsData.value.filter((c) => c.status === 'active');
 
   function toggle(id: string): void {
-    onChange(
-      selected.includes(id) ? selected.filter((s) => s !== id) : [...selected, id],
-    );
+    onChange(selected.includes(id) ? selected.filter((s) => s !== id) : [...selected, id]);
   }
 
   if (collections.length === 0) {
@@ -196,7 +194,7 @@ export function PointForm({ pointId }: PointFormProps): JSX.Element {
     loadPoints();
   }, []);
 
-  const existing = isNew ? null : pointsData.value.find((p) => p.id === pointId) ?? null;
+  const existing = isNew ? null : (pointsData.value.find((p) => p.id === pointId) ?? null);
 
   const [draft, setDraft] = useState<PointDraft>(() =>
     existing ? pointToDraft(existing) : emptyDraft(),
@@ -228,9 +226,18 @@ export function PointForm({ pointId }: PointFormProps): JSX.Element {
 
   async function handleSave(): Promise<void> {
     setSaveError(null);
-    if (!draft.id.trim()) { setSaveError('ID обязателен'); return; }
-    if (!draft.title.trim()) { setSaveError('Название обязательно'); return; }
-    if (!draft.category_id) { setSaveError('Категория обязательна'); return; }
+    if (!draft.id.trim()) {
+      setSaveError('ID обязателен');
+      return;
+    }
+    if (!draft.title.trim()) {
+      setSaveError('Название обязательно');
+      return;
+    }
+    if (!draft.category_id) {
+      setSaveError('Категория обязательна');
+      return;
+    }
 
     const now = new Date().toISOString();
 
@@ -276,7 +283,13 @@ export function PointForm({ pointId }: PointFormProps): JSX.Element {
   const authors = authorsData.value.filter((a) => a.status === 'active');
   const saving = pointsSaveState.value === 'saving';
 
-  const accessibilityOptions: PointAccessibility[] = ['street', 'courtyard', 'interior', 'restricted', 'unknown'];
+  const accessibilityOptions: PointAccessibility[] = [
+    'street',
+    'courtyard',
+    'interior',
+    'restricted',
+    'unknown',
+  ];
   const accessibilityLabels: Record<PointAccessibility, string> = {
     street: 'Видно с улицы',
     courtyard: 'Во дворе',
@@ -285,7 +298,14 @@ export function PointForm({ pointId }: PointFormProps): JSX.Element {
     unknown: 'Доступность неизвестна',
   };
 
-  const stateOptions: PointState[] = ['intact', 'damaged', 'restored', 'painted_over', 'removed', 'unknown'];
+  const stateOptions: PointState[] = [
+    'intact',
+    'damaged',
+    'restored',
+    'painted_over',
+    'removed',
+    'unknown',
+  ];
   const stateLabels: Record<PointState, string> = {
     intact: 'В порядке',
     damaged: 'Повреждена',
@@ -314,16 +334,10 @@ export function PointForm({ pointId }: PointFormProps): JSX.Element {
           >
             ← Точки
           </button>
-          <h2 class="point-form__title">
-            {isNew ? 'Новая точка' : draft.title || draft.id}
-          </h2>
+          <h2 class="point-form__title">{isNew ? 'Новая точка' : draft.title || draft.id}</h2>
           <div class="point-form__header-actions">
             {saveError && <span class="point-form__error">{saveError}</span>}
-            <button
-              class="admin-btn"
-              onClick={() => navigate('points')}
-              disabled={saving}
-            >
+            <button class="admin-btn" onClick={() => navigate('points')} disabled={saving}>
               Отмена
             </button>
             <button
@@ -374,15 +388,21 @@ export function PointForm({ pointId }: PointFormProps): JSX.Element {
               </div>
 
               <div class="pf-field">
-                <label class="pf-label" for="pf-status">Статус</label>
+                <label class="pf-label" for="pf-status">
+                  Статус
+                </label>
                 <select
                   id="pf-status"
                   class="pf-select"
                   value={draft.status}
-                  onChange={(e) => set('status', (e.target as HTMLSelectElement).value as ContentStatus)}
+                  onChange={(e) =>
+                    set('status', (e.target as HTMLSelectElement).value as ContentStatus)
+                  }
                 >
                   {statusOptions.map((s) => (
-                    <option key={s} value={s}>{statusLabels[s]}</option>
+                    <option key={s} value={s}>
+                      {statusLabels[s]}
+                    </option>
                   ))}
                 </select>
               </div>
@@ -405,7 +425,9 @@ export function PointForm({ pointId }: PointFormProps): JSX.Element {
             <h3 class="pf-section__title">Расположение</h3>
             <div class="pf-grid">
               <div class="pf-field">
-                <label class="pf-label" for="pf-lat">Широта</label>
+                <label class="pf-label" for="pf-lat">
+                  Широта
+                </label>
                 <input
                   id="pf-lat"
                   class="pf-input pf-input--mono"
@@ -413,13 +435,18 @@ export function PointForm({ pointId }: PointFormProps): JSX.Element {
                   step="0.000001"
                   value={draft.coords.lat}
                   onInput={(e) =>
-                    set('coords', { ...draft.coords, lat: parseFloat((e.target as HTMLInputElement).value) || 0 })
+                    set('coords', {
+                      ...draft.coords,
+                      lat: parseFloat((e.target as HTMLInputElement).value) || 0,
+                    })
                   }
                 />
               </div>
 
               <div class="pf-field">
-                <label class="pf-label" for="pf-lng">Долгота</label>
+                <label class="pf-label" for="pf-lng">
+                  Долгота
+                </label>
                 <input
                   id="pf-lng"
                   class="pf-input pf-input--mono"
@@ -427,13 +454,18 @@ export function PointForm({ pointId }: PointFormProps): JSX.Element {
                   step="0.000001"
                   value={draft.coords.lng}
                   onInput={(e) =>
-                    set('coords', { ...draft.coords, lng: parseFloat((e.target as HTMLInputElement).value) || 0 })
+                    set('coords', {
+                      ...draft.coords,
+                      lng: parseFloat((e.target as HTMLInputElement).value) || 0,
+                    })
                   }
                 />
               </div>
 
               <div class="pf-field pf-field--wide">
-                <label class="pf-label" for="pf-address">Адресная подсказка</label>
+                <label class="pf-label" for="pf-address">
+                  Адресная подсказка
+                </label>
                 <input
                   id="pf-address"
                   class="pf-input"
@@ -445,17 +477,24 @@ export function PointForm({ pointId }: PointFormProps): JSX.Element {
               </div>
 
               <div class="pf-field">
-                <label class="pf-label" for="pf-accessibility">Доступность</label>
+                <label class="pf-label" for="pf-accessibility">
+                  Доступность
+                </label>
                 <select
                   id="pf-accessibility"
                   class="pf-select"
                   value={draft.accessibility}
                   onChange={(e) =>
-                    set('accessibility', (e.target as HTMLSelectElement).value as PointAccessibility)
+                    set(
+                      'accessibility',
+                      (e.target as HTMLSelectElement).value as PointAccessibility,
+                    )
                   }
                 >
                   {accessibilityOptions.map((a) => (
-                    <option key={a} value={a}>{accessibilityLabels[a]}</option>
+                    <option key={a} value={a}>
+                      {accessibilityLabels[a]}
+                    </option>
                   ))}
                 </select>
               </div>
@@ -478,7 +517,9 @@ export function PointForm({ pointId }: PointFormProps): JSX.Element {
                 >
                   <option value="">— выберите —</option>
                   {categories.map((c) => (
-                    <option key={c.id} value={c.id}>{c.name}</option>
+                    <option key={c.id} value={c.id}>
+                      {c.name}
+                    </option>
                   ))}
                 </select>
               </div>
@@ -507,7 +548,9 @@ export function PointForm({ pointId }: PointFormProps): JSX.Element {
             <h3 class="pf-section__title">Описание</h3>
             <div class="pf-grid">
               <div class="pf-field pf-field--full">
-                <label class="pf-label" for="pf-description">Описание (Markdown)</label>
+                <label class="pf-label" for="pf-description">
+                  Описание (Markdown)
+                </label>
                 <textarea
                   id="pf-description"
                   class="pf-textarea"
@@ -518,7 +561,9 @@ export function PointForm({ pointId }: PointFormProps): JSX.Element {
               </div>
 
               <div class="pf-field">
-                <label class="pf-label" for="pf-author">Автор</label>
+                <label class="pf-label" for="pf-author">
+                  Автор
+                </label>
                 <select
                   id="pf-author"
                   class="pf-select"
@@ -527,13 +572,17 @@ export function PointForm({ pointId }: PointFormProps): JSX.Element {
                 >
                   <option value="">— не указан —</option>
                   {authors.map((a) => (
-                    <option key={a.id} value={a.id}>{a.name}</option>
+                    <option key={a.id} value={a.id}>
+                      {a.name}
+                    </option>
                   ))}
                 </select>
               </div>
 
               <div class="pf-field">
-                <label class="pf-label" for="pf-year">Год создания</label>
+                <label class="pf-label" for="pf-year">
+                  Год создания
+                </label>
                 <input
                   id="pf-year"
                   class="pf-input pf-input--mono"
@@ -550,7 +599,9 @@ export function PointForm({ pointId }: PointFormProps): JSX.Element {
               </div>
 
               <div class="pf-field">
-                <label class="pf-label" for="pf-dimensions">Размеры</label>
+                <label class="pf-label" for="pf-dimensions">
+                  Размеры
+                </label>
                 <input
                   id="pf-dimensions"
                   class="pf-input"
@@ -577,21 +628,29 @@ export function PointForm({ pointId }: PointFormProps): JSX.Element {
             <h3 class="pf-section__title">Физическое состояние</h3>
             <div class="pf-grid">
               <div class="pf-field">
-                <label class="pf-label" for="pf-state">Состояние</label>
+                <label class="pf-label" for="pf-state">
+                  Состояние
+                </label>
                 <select
                   id="pf-state"
                   class="pf-select"
                   value={draft.state}
-                  onChange={(e) => set('state', (e.target as HTMLSelectElement).value as PointState)}
+                  onChange={(e) =>
+                    set('state', (e.target as HTMLSelectElement).value as PointState)
+                  }
                 >
                   {stateOptions.map((s) => (
-                    <option key={s} value={s}>{stateLabels[s]}</option>
+                    <option key={s} value={s}>
+                      {stateLabels[s]}
+                    </option>
                   ))}
                 </select>
               </div>
 
               <div class="pf-field">
-                <label class="pf-label" for="pf-checked-at">Дата проверки</label>
+                <label class="pf-label" for="pf-checked-at">
+                  Дата проверки
+                </label>
                 <input
                   id="pf-checked-at"
                   class="pf-input pf-input--mono"

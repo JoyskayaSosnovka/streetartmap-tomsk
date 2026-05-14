@@ -14,7 +14,11 @@ import { categoriesData } from '../state/catalog.ts';
 
 function formatDate(iso: string): string {
   return iso
-    ? new Date(iso).toLocaleDateString('ru-RU', { day: '2-digit', month: '2-digit', year: '2-digit' })
+    ? new Date(iso).toLocaleDateString('ru-RU', {
+        day: '2-digit',
+        month: '2-digit',
+        year: '2-digit',
+      })
     : '—';
 }
 
@@ -62,7 +66,9 @@ export function PointsEditor(): JSX.Element {
     return (
       <div class="admin-section">
         <p class="admin-error">Ошибка: {error}</p>
-        <button class="admin-btn" onClick={resetPoints}>Повторить</button>
+        <button class="admin-btn" onClick={resetPoints}>
+          Повторить
+        </button>
       </div>
     );
   }
@@ -88,7 +94,9 @@ export function PointsEditor(): JSX.Element {
       </div>
 
       {saveState === 'saving' && <p class="admin-saving">Сохранение…</p>}
-      {saveState === 'error' && <p class="admin-error">Ошибка сохранения. Проверь PAT и права репозитория.</p>}
+      {saveState === 'error' && (
+        <p class="admin-error">Ошибка сохранения. Проверь PAT и права репозитория.</p>
+      )}
 
       {activePoints.length === 0 ? (
         <p class="admin-empty">Точек нет. Создайте первую.</p>
@@ -111,10 +119,7 @@ export function PointsEditor(): JSX.Element {
                 <tr key={point.id} class="admin-table__row">
                   <td class="admin-table__id">{point.id}</td>
                   <td class="admin-table__name">
-                    <button
-                      class="admin-table__link"
-                      onClick={() => navigate('points', point.id)}
-                    >
+                    <button class="admin-table__link" onClick={() => navigate('points', point.id)}>
                       {point.title || <span class="admin-table__empty">Без названия</span>}
                     </button>
                   </td>

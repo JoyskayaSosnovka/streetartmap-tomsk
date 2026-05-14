@@ -209,9 +209,19 @@ const pointSchema = {
     {
       type: 'object',
       required: [
-        'id', 'status', 'coords', 'accessibility', 'category_id',
-        'collection_ids', 'tags', 'title', 'description',
-        'materials', 'state', 'photos', 'featured',
+        'id',
+        'status',
+        'coords',
+        'accessibility',
+        'category_id',
+        'collection_ids',
+        'tags',
+        'title',
+        'description',
+        'materials',
+        'state',
+        'photos',
+        'featured',
       ],
       properties: {
         id: slugSchema,
@@ -404,7 +414,10 @@ function main(): void {
   for (const p of points) {
     if (p.status === 'archived') continue;
     if (!activeCategories.has(p.category_id))
-      err(`points.json[id=${p.id}]`, `category_id "${p.category_id}" не существует или архивирована`);
+      err(
+        `points.json[id=${p.id}]`,
+        `category_id "${p.category_id}" не существует или архивирована`,
+      );
     for (const cid of p.collection_ids) {
       if (!activeCollections.has(cid))
         err(`points.json[id=${p.id}]`, `collection_id "${cid}" не существует или архивирована`);
@@ -416,8 +429,7 @@ function main(): void {
   for (const r of routes) {
     if (r.status === 'archived') continue;
     for (const pid of r.point_ids) {
-      if (!allPointIds.has(pid))
-        err(`routes.json[id=${r.id}]`, `point_id "${pid}" не существует`);
+      if (!allPointIds.has(pid)) err(`routes.json[id=${r.id}]`, `point_id "${pid}" не существует`);
     }
     if (r.point_ids.every((pid) => pointCoords.has(pid))) {
       const expected = geometryHashFor(r.point_ids, pointCoords, r.via_waypoints);
@@ -444,8 +456,8 @@ function main(): void {
 
   console.log(
     `✅ Валидация пройдена: ${categories.length} категорий, ${collections.length} коллекций, ` +
-    `${authors.length} авторов, ${points.length} точек, ${routes.length} маршрутов` +
-    (warnings.length > 0 ? ` (${warnings.length} предупреждений)` : ''),
+      `${authors.length} авторов, ${points.length} точек, ${routes.length} маршрутов` +
+      (warnings.length > 0 ? ` (${warnings.length} предупреждений)` : ''),
   );
 }
 

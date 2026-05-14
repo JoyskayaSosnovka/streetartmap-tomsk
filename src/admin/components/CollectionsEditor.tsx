@@ -115,7 +115,9 @@ export function CollectionsEditor(): JSX.Element {
       ...(editing.description.trim() ? { description: editing.description.trim() } : {}),
       ...(editing.year_start ? { year_start: Number(editing.year_start) } : {}),
       ...(editing.year_end ? { year_end: Number(editing.year_end) } : {}),
-      ...(editing.organizer_or_author.trim() ? { organizer_or_author: editing.organizer_or_author.trim() } : {}),
+      ...(editing.organizer_or_author.trim()
+        ? { organizer_or_author: editing.organizer_or_author.trim() }
+        : {}),
       created_at: existing?.created_at ?? timestamp,
       updated_at: timestamp,
       created_by: existing?.created_by ?? login,

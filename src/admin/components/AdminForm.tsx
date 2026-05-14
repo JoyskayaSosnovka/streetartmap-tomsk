@@ -85,13 +85,7 @@ interface TextareaProps {
 }
 
 export function Textarea({ class: cls, rows, ...rest }: TextareaProps): JSX.Element {
-  return (
-    <textarea
-      class={`admin-textarea${cls ? ` ${cls}` : ''}`}
-      rows={rows ?? 4}
-      {...rest}
-    />
-  );
+  return <textarea class={`admin-textarea${cls ? ` ${cls}` : ''}`} rows={rows ?? 4} {...rest} />;
 }
 
 interface FormActionsProps {
