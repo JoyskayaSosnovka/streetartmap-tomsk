@@ -54,7 +54,7 @@ export function createDebouncedRouter(): DebouncedRouter {
                 );
               }, RETRY_DELAY_MS);
             } else {
-              callback(null, routes);
+              callback(null as unknown as L.Routing.IError & Error, routes);
             }
           },
           context,

@@ -255,13 +255,13 @@ export function RouteForm({ routeId }: { routeId: string }): JSX.Element {
       const geometry: RouteGeometry = {
         type: 'LineString',
         // LRM coordinates: L.LatLng ([lat, lng]). GeoJSON хранит [lng, lat].
-        coordinates: r.coordinates.map((c): [number, number] => [c.lng, c.lat]),
+        coordinates: r.coordinates?.map((c): [number, number] => [c.lng, c.lat]),
       };
       setDraft((d) => ({
         ...d,
         geometry,
-        total_distance_m: Math.round(r.summary.totalDistance),
-        total_duration_s: Math.round(r.summary.totalTime),
+        total_distance_m: Math.round(r.summary?.totalDistance ?? 0),
+        total_duration_s: Math.round(r.summary?.totalTime ?? 0),
       }));
     });
 
