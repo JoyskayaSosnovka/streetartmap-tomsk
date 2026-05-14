@@ -236,7 +236,9 @@ export function RouteForm({ routeId }: { routeId: string }): JSX.Element {
           { color: '#b8ff3d', weight: 3, opacity: 1 },
         ],
       },
-      extendToWaypoints: false,`n          missingRouteTolerance: 0,`n          createMarker: () => false,
+      extendToWaypoints: false,
+          missingRouteTolerance: 0,
+          createMarker: () => false,
     }).addTo(map);
 
     // LRM = source of truth для waypoints → синхронизируем draft
