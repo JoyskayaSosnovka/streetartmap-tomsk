@@ -1,38 +1,5 @@
 [
   {
-    "id": "lagernyy-stencil-1",
-    "status": "published",
-    "coords": {
-      "lat": 56.4566,
-      "lng": 84.9341
-    },
-    "address_hint": "Лагерный сад, бетонный парапет",
-    "accessibility": "street",
-    "category_id": "stencil",
-    "collection_ids": [
-      "tomsk-portraits"
-    ],
-    "tags": [
-      "трафарет"
-    ],
-    "title": "Трафарет в Лагерном саду",
-    "description": "Тестовая точка: state=damaged для проверки треугольника-предупреждения.",
-    "year_created": 2022,
-    "materials": [
-      "аэрозоль",
-      "картон"
-    ],
-    "state": "damaged",
-    "state_checked_at": "2024-08-15T00:00:00.000Z",
-    "photos": [],
-    "featured": false,
-    "created_at": "2025-01-01T00:00:00.000Z",
-    "updated_at": "2026-05-15T09:54:30.795Z",
-    "created_by": "system",
-    "updated_by": "",
-    "author_id": "kollektiv-forma"
-  },
-  {
     "id": "voskresenskaya-sculpture-1",
     "status": "published",
     "coords": {
