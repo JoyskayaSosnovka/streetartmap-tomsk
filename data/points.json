@@ -159,36 +159,5 @@
     "created_by": "system",
     "updated_by": "dbblqp-droid",
     "author_id": "kollektiv-forma"
-  },
-  {
-    "created_at": "2026-05-13T06:13:27.088Z",
-    "created_by": "dbblqp-droid",
-    "updated_at": "2026-05-15T09:00:32.964Z",
-    "updated_by": "dbblqp-droid",
-    "id": "farsh",
-    "status": "published",
-    "coords": {
-      "lat": 56.3884,
-      "lng": 85.2095
-    },
-    "accessibility": "street",
-    "category_id": "sculpture",
-    "collection_ids": [],
-    "tags": [
-      "филинки здесь"
-    ],
-    "title": "sabachya-paseka",
-    "description": "капец жесть че",
-    "materials": [
-      "финики"
-    ],
-    "state": "intact",
-    "photos": [],
-    "featured": false,
-    "address_hint": "улица сабачий край",
-    "dimensions": "6x9",
-    "state_checked_at": "2026-02-23T00:00:00.000Z",
-    "year_created": 1984,
-    "author_id": "anna-volkov"
   }
 ]
