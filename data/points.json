@@ -1,37 +1,5 @@
 [
   {
-    "id": "voskresenskaya-sculpture-1",
-    "status": "published",
-    "coords": {
-      "lat": 56.501,
-      "lng": 84.971
-    },
-    "address_hint": "Воскресенская гора, сквер",
-    "accessibility": "street",
-    "category_id": "sculpture",
-    "collection_ids": [],
-    "tags": [
-      "объект",
-      "дерево"
-    ],
-    "title": "Деревянная скульптура на Воскресенской",
-    "description": "Тестовая точка: одна коллекция → одинарная обводка.",
-    "year_created": 2021,
-    "dimensions": "180×60×60 см",
-    "materials": [
-      "сосна",
-      "пропитка"
-    ],
-    "state": "intact",
-    "photos": [],
-    "featured": false,
-    "created_at": "2025-01-01T00:00:00.000Z",
-    "updated_at": "2026-05-15T09:54:38.345Z",
-    "created_by": "system",
-    "updated_by": "",
-    "author_id": "ivan-petrov"
-  },
-  {
     "id": "novosobornaya-paste-1",
     "status": "published",
     "coords": {
