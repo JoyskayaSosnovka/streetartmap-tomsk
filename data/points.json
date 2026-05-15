@@ -163,7 +163,7 @@
   {
     "created_at": "2026-05-13T06:13:27.088Z",
     "created_by": "dbblqp-droid",
-    "updated_at": "2026-05-15T08:29:36.345Z",
+    "updated_at": "2026-05-15T08:30:41.361Z",
     "updated_by": "dbblqp-droid",
     "id": "farsh",
     "status": "published",
@@ -187,7 +187,7 @@
     "featured": false,
     "address_hint": "улица сабачий край",
     "dimensions": "6x9",
-    "state_checked_at": "2015-02-23T00:00:00.000Z",
+    "state_checked_at": "2026-02-23T00:00:00.000Z",
     "year_created": 1984,
     "author_id": "anna-volkov"
   },
