@@ -169,5 +169,23 @@
     "updated_at": "2026-05-17T10:00:00.000Z",
     "created_by": "anakozik86-ai",
     "updated_by": "anakozik86-ai"
+  },
+  {
+    "id": "aleksandr-evtikheev",
+    "name": "Александр Евтихеев",
+    "status": "active",
+    "created_at": "2026-05-17T10:00:00.000Z",
+    "updated_at": "2026-05-17T10:00:00.000Z",
+    "created_by": "anakozik86-ai",
+    "updated_by": "anakozik86-ai"
+  },
+  {
+    "id": "german-zavyalov",
+    "name": "Герман Завьялов",
+    "status": "active",
+    "created_at": "2026-05-17T10:00:00.000Z",
+    "updated_at": "2026-05-17T10:00:00.000Z",
+    "created_by": "anakozik86-ai",
+    "updated_by": "anakozik86-ai"
   }
 ]

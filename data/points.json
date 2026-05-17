@@ -21,6 +21,7 @@
       "prozhar70",
       "gold-fish"
     ],
+    "year_created": 2021,
     "materials": [
       "бочки",
       "баллоны"
@@ -54,8 +55,12 @@
     "collection_ids": [],
     "tags": [],
     "title": "Труд",
-    "description": "Мозаичное панно хрущёвской эпохи на торце жилого дома. Автор неизвестен.",
-    "author_ids": [],
+    "description": "Одно из первых мозаичных изображений в Томске. Работа показывает советских трудящихся различных областей и исполнена в холодных и сдержанных тонах. Художники самостоятельно, без посторонней помощи, трудились на строительных лесах и сами клеили рисунок. В 2021 году мозаика была восстановлена после того, как долгое время оставалась завешенной рекламным баннером строительной компании.",
+    "author_ids": [
+      "aleksandr-evtikheev",
+      "german-zavyalov"
+    ],
+    "year_created": 1972,
     "materials": [],
     "state": "intact",
     "photos": [
@@ -79,56 +84,6 @@
         "credit": "",
         "width": 1006,
         "height": 866
-      }
-    ],
-    "featured": false,
-    "created_at": "2026-05-17T10:00:00.000Z",
-    "updated_at": "2026-05-17T10:00:00.000Z",
-    "created_by": "anakozik86-ai",
-    "updated_by": "anakozik86-ai"
-  },
-  {
-    "id": "sibir-mesto-sily",
-    "status": "published",
-    "coords": {
-      "lat": 56.468115,
-      "lng": 84.953066
-    },
-    "address_hint": "ул. Советская, 65",
-    "accessibility": "street",
-    "category_id": "mural",
-    "collection_ids": [
-      "street-vision-2023"
-    ],
-    "tags": [],
-    "title": "СИБИРЬ — МЕСТО СИЛЫ",
-    "description": "Мурал «Сибирь — место силы», слияние двух эпох в одной работе. «Наши предки знали всё о природе, а сейчас мы летаем в космос». Автор — Захар SNA (Северск).",
-    "author_ids": [
-      "zahar-sna"
-    ],
-    "materials": [],
-    "state": "intact",
-    "photos": [
-      {
-        "filename": "sibir-mesto-sily-01",
-        "caption": "",
-        "credit": "",
-        "width": 607,
-        "height": 405
-      },
-      {
-        "filename": "sibir-mesto-sily-02",
-        "caption": "",
-        "credit": "",
-        "width": 1600,
-        "height": 910
-      },
-      {
-        "filename": "sibir-mesto-sily-03",
-        "caption": "",
-        "credit": "",
-        "width": 447,
-        "height": 298
       }
     ],
     "featured": false,
@@ -177,6 +132,57 @@
     "updated_by": "anakozik86-ai"
   },
   {
+    "id": "sibir-mesto-sily",
+    "status": "published",
+    "coords": {
+      "lat": 56.468115,
+      "lng": 84.953066
+    },
+    "address_hint": "ул. Советская, 65",
+    "accessibility": "street",
+    "category_id": "mural",
+    "collection_ids": [
+      "street-vision-2023"
+    ],
+    "tags": [],
+    "title": "СИБИРЬ — МЕСТО СИЛЫ",
+    "description": "Мурал «Сибирь — место силы», слияние двух эпох в одной работе. «Наши предки знали всё о природе, а сейчас мы летаем в космос». Автор — Захар SNA (Северск).",
+    "author_ids": [
+      "zahar-sna"
+    ],
+    "year_created": 2023,
+    "materials": [],
+    "state": "intact",
+    "photos": [
+      {
+        "filename": "sibir-mesto-sily-01",
+        "caption": "",
+        "credit": "",
+        "width": 607,
+        "height": 405
+      },
+      {
+        "filename": "sibir-mesto-sily-02",
+        "caption": "",
+        "credit": "",
+        "width": 1600,
+        "height": 910
+      },
+      {
+        "filename": "sibir-mesto-sily-03",
+        "caption": "",
+        "credit": "",
+        "width": 447,
+        "height": 298
+      }
+    ],
+    "featured": false,
+    "created_at": "2026-05-17T10:00:00.000Z",
+    "updated_at": "2026-05-17T10:00:00.000Z",
+    "created_by": "anakozik86-ai",
+    "updated_by": "anakozik86-ai"
+  },
+  {
     "id": "my-bukvy-s-nami-tekst",
     "status": "published",
     "coords": {
@@ -195,6 +201,7 @@
     "author_ids": [
       "vladimir-abikh"
     ],
+    "year_created": 2021,
     "materials": [],
     "state": "intact",
     "photos": [
@@ -313,6 +320,7 @@
       "ilya-wince-malomoschenko",
       "marina-zaykova"
     ],
+    "year_created": 2023,
     "materials": [],
     "state": "intact",
     "photos": [
@@ -463,6 +471,7 @@
       "ilya-wince-malomoschenko",
       "matvey-fateev"
     ],
+    "year_created": 2023,
     "materials": [],
     "state": "intact",
     "photos": [
@@ -488,6 +497,48 @@
     "updated_by": "anakozik86-ai"
   },
   {
+    "id": "tanec-vlyublennyh-rek",
+    "status": "published",
+    "coords": {
+      "lat": 56.484637,
+      "lng": 84.947492
+    },
+    "address_hint": "Подпорная стенка моста через Ушайку",
+    "accessibility": "street",
+    "category_id": "mural",
+    "collection_ids": [],
+    "tags": [],
+    "title": "Танец влюблённых рек",
+    "description": "Романтическая история, вдохновлённая легендой о Томе и Ушае: легенду переосмыслили и посмотрели на персонажей с другой стороны. Это практически книжная иллюстрация, натянутая на сложное техническое сооружение в центре Томска. Нет ни одной точки, с которой можно полностью разглядеть изображение, — это невозможно из-за формы объекта. Автор эскиза — томская художница Анна Турченко. Художники: Евгения Власенко, Анна Шнурко, Евгений Иванов, Екатерина Пушникова, Дарья Шелл, Ника Прокопьева, Анна Липова, Григорий Косых, Лев Кудряшов и волонтёры фестиваля.",
+    "author_ids": [
+      "anna-turchenko"
+    ],
+    "year_created": 2023,
+    "materials": [],
+    "state": "intact",
+    "photos": [
+      {
+        "filename": "tanec-vlyublennyh-rek-01",
+        "caption": "",
+        "credit": "",
+        "width": 621,
+        "height": 415
+      },
+      {
+        "filename": "tanec-vlyublennyh-rek-02",
+        "caption": "",
+        "credit": "",
+        "width": 1568,
+        "height": 1000
+      }
+    ],
+    "featured": false,
+    "created_at": "2026-05-17T10:00:00.000Z",
+    "updated_at": "2026-05-17T10:00:00.000Z",
+    "created_by": "anakozik86-ai",
+    "updated_by": "anakozik86-ai"
+  },
+  {
     "id": "ushayka-space",
     "status": "published",
     "coords": {
@@ -504,6 +555,7 @@
     "author_ids": [
       "ilya-wince-malomoschenko"
     ],
+    "year_created": 2023,
     "materials": [],
     "state": "intact",
     "photos": [
@@ -546,6 +598,7 @@
       "matvey-fateev",
       "marina-zaykova"
     ],
+    "year_created": 2022,
     "materials": [],
     "state": "intact",
     "photos": [
@@ -594,6 +647,7 @@
     "author_ids": [
       "ilya-wince-malomoschenko"
     ],
+    "year_created": 2021,
     "materials": [],
     "state": "intact",
     "photos": [
@@ -637,6 +691,7 @@
     "author_ids": [
       "misha-mack"
     ],
+    "year_created": 2021,
     "materials": [
       "баллоны"
     ],
@@ -671,47 +726,6 @@
     "updated_by": "anakozik86-ai"
   },
   {
-    "id": "tanec-vlyublennyh-rek",
-    "status": "published",
-    "coords": {
-      "lat": 56.484637,
-      "lng": 84.947492
-    },
-    "address_hint": "Подпорная стенка моста через Ушайку",
-    "accessibility": "street",
-    "category_id": "mural",
-    "collection_ids": [],
-    "tags": [],
-    "title": "Танец влюблённых рек",
-    "description": "Романтическая история, вдохновлённая легендой о Томе и Ушае: легенду переосмыслили и посмотрели на персонажей с другой стороны. Это практически книжная иллюстрация, натянутая на сложное техническое сооружение в центре Томска. Нет ни одной точки, с которой можно полностью разглядеть изображение, — это невозможно из-за формы объекта. Автор эскиза — томская художница Анна Турченко. Художники: Евгения Власенко, Анна Шнурко, Евгений Иванов, Екатерина Пушникова, Дарья Шелл, Ника Прокопьева, Анна Липова, Григорий Косых, Лев Кудряшов и волонтёры фестиваля.",
-    "author_ids": [
-      "anna-turchenko"
-    ],
-    "materials": [],
-    "state": "intact",
-    "photos": [
-      {
-        "filename": "tanec-vlyublennyh-rek-01",
-        "caption": "",
-        "credit": "",
-        "width": 621,
-        "height": 415
-      },
-      {
-        "filename": "tanec-vlyublennyh-rek-02",
-        "caption": "",
-        "credit": "",
-        "width": 1568,
-        "height": 1000
-      }
-    ],
-    "featured": false,
-    "created_at": "2026-05-17T10:00:00.000Z",
-    "updated_at": "2026-05-17T10:00:00.000Z",
-    "created_by": "anakozik86-ai",
-    "updated_by": "anakozik86-ai"
-  },
-  {
     "id": "nash-kosmos",
     "status": "published",
     "coords": {
@@ -728,6 +742,7 @@
     "author_ids": [
       "ilya-wince-malomoschenko"
     ],
+    "year_created": 2025,
     "materials": [],
     "state": "intact",
     "photos": [
@@ -765,6 +780,7 @@
       "marina-zaykova",
       "konstantin-cherenkov"
     ],
+    "year_created": 2022,
     "materials": [],
     "state": "intact",
     "photos": [
@@ -809,7 +825,7 @@
     "collection_ids": [],
     "tags": [],
     "title": "У Томи мы неутомимы",
-    "description": "Арт-объект на набережной Томи, созданный коллективом художников «Фрукты».",
+    "description": "Арт-объект в формате творческого текстового послания от художественного коллектива «Фрукты» Томску. Произведение сочетает игру слов и взаимодействие с окружением — отсылку к реке на фоне — и в некотором роде является мотивационным.",
     "author_ids": [
       "kollektiv-frukty"
     ],
@@ -853,6 +869,7 @@
       "galina-berezkina",
       "vladimir-lipinsky"
     ],
+    "year_created": 2019,
     "materials": [],
     "state": "intact",
     "photos": [
@@ -906,6 +923,7 @@
     "title": "Легальная стена VCWALL",
     "description": "Легальная стена для граффити VCWALL «hall of fame» на набережной Томи — от агентства Street Vision и проекта VCWALL. VALGALO WALL — элемент плейсмейкинга и урбанизма, проект стартовал в Сочи в 2015 году и направлен на развитие граффити-культуры и перевод её в легальное русло. На сегодняшний день открыты три объекта в Краснодарском крае и один в Сургуте. Площадь стены — 420 м².",
     "author_ids": [],
+    "year_created": 2025,
     "materials": [],
     "state": "intact",
     "photos": [
