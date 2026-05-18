@@ -86,18 +86,33 @@ export interface RouteGeometry {
   type: 'LineString';
   coordinates: [number, number][];
 }
+
+/**
+ * Drag-промежуточная точка маршрута для коррекции линии в LRM.
+ *
+ * `after` — индекс anchor'а в `Route.point_ids`, ПОСЛЕ которого вставляется via
+ * (0-based; диапазон `[0, point_ids.length - 2]`). То есть `after = 0` означает
+ * «между 1-м и 2-м anchor'ом».
+ *
+ * `lat`/`lng` — Leaflet-формат (не GeoJSON [lng, lat]).
+ *
+ * Не участвуют в публичном рендере — RouteLayer читает только geometry. Нужны
+ * только для редактора, чтобы при перезагрузке восстановить позиции via между
+ * правильными сегментами маршрута.
+ */
+export interface RouteViaWaypoint {
+  after: number;
+  lat: number;
+  lng: number;
+}
+
 export interface Route extends Auditable {
   id: string;
   status: ContentStatus;
   name: string;
   description?: string;
   point_ids: string[];
-  /**
-   * Drag-промежуточные точки в Leaflet-формате [lat, lng] (не GeoJSON [lng, lat]).
-   * Используются LRM в редакторе для пользовательской корректировки формы маршрута.
-   * Не участвуют в публичном рендере — RouteLayer читает только geometry.
-   */
-  via_waypoints?: [number, number][];
+  via_waypoints?: RouteViaWaypoint[];
   geometry: RouteGeometry | null;
   geometry_hash: string;
   total_distance_m?: number;

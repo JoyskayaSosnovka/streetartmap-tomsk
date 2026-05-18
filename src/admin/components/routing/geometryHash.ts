@@ -1,4 +1,4 @@
-import type { Point } from '@shared/types/data.ts';
+import type { Point, RouteViaWaypoint } from '@shared/types/data.ts';
 
 /**
  * Вычисляет geometry_hash для маршрута через Web Crypto API (browser).
@@ -7,14 +7,15 @@ import type { Point } from '@shared/types/data.ts';
  * Изменение здесь требует синхронной правки там.
  *
  * Формат input строки:
- *   ANCHORS:{id1}:{lat6},{lng6}|{id2}:{lat6},{lng6}|VIA:{vlat6},{vlng6}|{vlat6},{vlng6}
+ *   ANCHORS:{id1}:{lat6},{lng6}|{id2}:{lat6},{lng6}|VIA:{after}@{lat6},{lng6}|{after}@{lat6},{lng6}
  *
- * via_waypoints в формате [lat, lng] (Leaflet-native, не GeoJSON [lng, lat]).
- * Если точка из pointIds не найдена в pointsById — ставим '?' вместо координат.
+ * via_waypoints — RouteViaWaypoint с полем `after` (индекс anchor'а),
+ * входят в hash чтобы любое смещение/перестановка/добавление via инвалидировали
+ * geometry. Если точка из pointIds не найдена в pointsById — '?' вместо координат.
  */
 export async function computeGeometryHash(
   pointIds: string[],
-  viaWaypoints: [number, number][],
+  viaWaypoints: RouteViaWaypoint[],
   pointsById: Map<string, Point>,
 ): Promise<string> {
   const anchorsStr = pointIds
@@ -24,7 +25,9 @@ export async function computeGeometryHash(
     })
     .join('|');
 
-  const viaStr = viaWaypoints.map(([lat, lng]) => `${lat.toFixed(6)},${lng.toFixed(6)}`).join('|');
+  const viaStr = viaWaypoints
+    .map((v) => `${v.after}@${v.lat.toFixed(6)},${v.lng.toFixed(6)}`)
+    .join('|');
 
   const payload = `ANCHORS:${anchorsStr}|VIA:${viaStr}`;
 

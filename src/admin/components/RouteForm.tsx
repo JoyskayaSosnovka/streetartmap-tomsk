@@ -1,7 +1,13 @@
 import { useEffect, useMemo, useRef, useState } from 'preact/hooks';
 import type { JSX } from 'preact';
 import L from 'leaflet';
-import type { Route, Point, ContentStatus, RouteGeometry } from '@shared/types/data.ts';
+import type {
+  Route,
+  Point,
+  ContentStatus,
+  RouteGeometry,
+  RouteViaWaypoint,
+} from '@shared/types/data.ts';
 import { loadConfig } from '@shared/utils/loadConfig.ts';
 import { navigate } from '../state/router.ts';
 import {
@@ -20,7 +26,8 @@ import { createDebouncedRouter, type DebouncedRouter } from './routing/debounced
 import {
   makeAnchorWaypoint,
   extractAnchorIds,
-  extractViaCoords,
+  extractViaWaypoints,
+  normalizeViaWaypoints,
   onlyAnchors,
 } from './routing/waypointHelpers.ts';
 import { computeGeometryHash } from './routing/geometryHash.ts';
@@ -36,7 +43,7 @@ interface RouteDraft {
   description: string;
   color: string;
   point_ids: string[];
-  via_waypoints: [number, number][];
+  via_waypoints: RouteViaWaypoint[];
   geometry: RouteGeometry | null;
   total_distance_m: number | null;
   total_duration_s: number | null;
@@ -67,9 +74,9 @@ function routeToDraft(r: Route): RouteDraft {
     description: r.description ?? '',
     color: r.color ?? '#b8ff3d',
     point_ids: [...r.point_ids],
-    via_waypoints: r.via_waypoints
-      ? r.via_waypoints.map((p): [number, number] => [p[0], p[1]])
-      : [],
+    // normalizeViaWaypoints отбрасывает старый формат [[lat,lng],...] — без
+    // позиции восстановить нечего. При сохранении хеш и via перепишутся.
+    via_waypoints: normalizeViaWaypoints(r.via_waypoints),
     geometry: r.geometry
       ? {
           type: 'LineString',
@@ -129,7 +136,7 @@ export function RouteForm({ routeId }: { routeId: string }): JSX.Element {
   // эмитится при применении snapshot, не положил его обратно в историю.
   type HistorySnapshot = {
     point_ids: string[];
-    via_waypoints: [number, number][];
+    via_waypoints: RouteViaWaypoint[];
   };
   const HISTORY_LIMIT = 30;
   const historyRef = useRef<{
@@ -179,6 +186,8 @@ export function RouteForm({ routeId }: { routeId: string }): JSX.Element {
       const stored = localStorage.getItem(storageKey);
       if (stored) {
         const parsed = JSON.parse(stored) as RouteDraft;
+        // Migration guard: старый формат via_waypoints (массив пар) → []
+        parsed.via_waypoints = normalizeViaWaypoints(parsed.via_waypoints);
         if (JSON.stringify(parsed) !== JSON.stringify(initial)) {
           setShowRestorePrompt(parsed);
           setDraft(initial);
@@ -325,7 +334,7 @@ export function RouteForm({ routeId }: { routeId: string }): JSX.Element {
           ctrl.on('waypointschanged', () => {
             const wps = ctrl.getWaypoints();
             const point_ids = extractAnchorIds(wps);
-            const via_waypoints = extractViaCoords(wps);
+            const via_waypoints = extractViaWaypoints(wps);
             setDraft((d) => ({ ...d, point_ids, via_waypoints }));
 
             // Любое изменение waypoints (клик по маркеру, drag via, ↑↓, ×,
@@ -445,19 +454,45 @@ export function RouteForm({ routeId }: { routeId: string }): JSX.Element {
       anchorWps.push(makeAnchorWaypoint(L.latLng(p.coords.lat, p.coords.lng), id));
     }
 
-    if (anchorWps.length >= 2 && d.via_waypoints.length > 0) {
-      // via вставляем после первого anchor — LRM перераспределит при route()
-      const wpsWithVia: L.Routing.Waypoint[] = [anchorWps[0]!];
-      for (const v of d.via_waypoints) {
-        wpsWithVia.push({ latLng: L.latLng(v[0], v[1]) });
+    lrmRef.current.setWaypoints(interleaveViaWaypoints(anchorWps, d.via_waypoints));
+  }
+
+  /**
+   * Собирает плоский массив waypoints из anchor'ов и via, расставляя via после
+   * соответствующих anchor'ов согласно `via.after`. Via с `after` за пределами
+   * валидного диапазона (например, anchor удалён) отбрасываются — иначе они
+   * сваливались бы в конец и ломали маршрут.
+   */
+  function interleaveViaWaypoints(
+    anchors: L.Routing.Waypoint[],
+    vias: RouteViaWaypoint[],
+  ): L.Routing.Waypoint[] {
+    if (anchors.length < 2 || vias.length === 0) return anchors;
+
+    // Группируем via по anchor-индексу. Сохраняем исходный порядок внутри группы.
+    const bySegment = new Map<number, RouteViaWaypoint[]>();
+    const lastValidAfter = anchors.length - 2; // via после последнего anchor бессмысленна
+    for (const v of vias) {
+      if (v.after < 0 || v.after > lastValidAfter) continue;
+      let list = bySegment.get(v.after);
+      if (!list) {
+        list = [];
+        bySegment.set(v.after, list);
       }
-      for (let i = 1; i < anchorWps.length; i++) {
-        wpsWithVia.push(anchorWps[i]!);
-      }
-      lrmRef.current.setWaypoints(wpsWithVia);
-    } else {
-      lrmRef.current.setWaypoints(anchorWps);
+      list.push(v);
     }
+
+    const out: L.Routing.Waypoint[] = [];
+    for (let i = 0; i < anchors.length; i++) {
+      out.push(anchors[i]!);
+      const seg = bySegment.get(i);
+      if (seg) {
+        for (const v of seg) {
+          out.push({ latLng: L.latLng(v.lat, v.lng) });
+        }
+      }
+    }
+    return out;
   }
 
   // --- история изменений: push/undo/redo/apply ---
@@ -471,7 +506,7 @@ export function RouteForm({ routeId }: { routeId: string }): JSX.Element {
     for (let i = 0; i < a.via_waypoints.length; i++) {
       const av = a.via_waypoints[i]!;
       const bv = b.via_waypoints[i]!;
-      if (av[0] !== bv[0] || av[1] !== bv[1]) return false;
+      if (av.after !== bv.after || av.lat !== bv.lat || av.lng !== bv.lng) return false;
     }
     return true;
   }
@@ -501,16 +536,7 @@ export function RouteForm({ routeId }: { routeId: string }): JSX.Element {
       anchorWps.push(makeAnchorWaypoint(L.latLng(p.coords.lat, p.coords.lng), id));
     }
 
-    let allWps: L.Routing.Waypoint[];
-    if (anchorWps.length >= 2 && s.via_waypoints.length > 0) {
-      allWps = [anchorWps[0]!];
-      for (const v of s.via_waypoints) {
-        allWps.push({ latLng: L.latLng(v[0], v[1]) });
-      }
-      for (let i = 1; i < anchorWps.length; i++) allWps.push(anchorWps[i]!);
-    } else {
-      allWps = anchorWps;
-    }
+    const allWps = interleaveViaWaypoints(anchorWps, s.via_waypoints);
 
     // applying держим до routesfound, который придёт через debounce 300ms + OSRM ~500ms.
     // Без этого LRM эмитит ещё один waypointschanged после snapping к дорогам, и тот
@@ -726,7 +752,7 @@ export function RouteForm({ routeId }: { routeId: string }): JSX.Element {
     try {
       const wps = lrmRef.current.getWaypoints();
       const point_ids = extractAnchorIds(wps);
-      const via_waypoints = extractViaCoords(wps);
+      const via_waypoints = extractViaWaypoints(wps);
       const pointsById = new Map(pointsData.value.map((p) => [p.id, p] as const));
       const geometry_hash = await computeGeometryHash(point_ids, via_waypoints, pointsById);
 

@@ -146,8 +146,11 @@ interface ExternalLink {
   description?: string,
   point_ids: string[],   // упорядоченный список
 
-  /** Leaflet-формат [lat, lng] (не GeoJSON [lng, lat]). */
-  via_waypoints?: [number, number][],
+  /**
+   * Drag-промежуточные точки коррекции линии. `after` — индекс anchor'а в point_ids,
+   * после которого вставлять (0-based, [0..point_ids.length-2]). lat/lng — Leaflet-формат.
+   */
+  via_waypoints?: { after: number, lat: number, lng: number }[],
 
   geometry: { type: 'LineString', coordinates: [lng, lat][] } | null,
   geometry_hash: string, // sha256 от point_ids + coords + via_waypoints
@@ -159,7 +162,7 @@ interface ExternalLink {
 }
 ```
 
-Формула `geometry_hash`: `ANCHORS:{id}:{lat6},{lng6}|...|VIA:{lat6},{lng6}|...` через `sha256`. Синхронизирована между:
+Формула `geometry_hash`: `ANCHORS:{id}:{lat6},{lng6}|...|VIA:{after}@{lat6},{lng6}|...` через `sha256`. Синхронизирована между:
 
 - `scripts/validate-data.ts` → `geometryHashFor()`
 - `src/admin/components/routing/geometryHash.ts` → `computeGeometryHash()`

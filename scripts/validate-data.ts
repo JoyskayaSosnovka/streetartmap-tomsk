@@ -30,6 +30,7 @@ import type {
   Author,
   Point,
   Route,
+  RouteViaWaypoint,
 } from '../src/shared/types/index.ts';
 
 // ----- настройка -----
@@ -281,14 +282,20 @@ const routeSchema = {
         name: { type: 'string', minLength: 1 },
         description: { type: 'string' },
         point_ids: { type: 'array', items: slugSchema, minItems: 2 },
-        // via_waypoints: Leaflet-формат [lat, lng], optional
+        // via_waypoints: drag-точки коррекции линии с привязкой к индексу anchor'а.
+        // `after` ∈ [0, point_ids.length - 2] — индекс anchor'а, после которого вставлять.
+        // lat/lng — Leaflet-формат (не GeoJSON).
         via_waypoints: {
           type: 'array',
           items: {
-            type: 'array',
-            items: { type: 'number' },
-            minItems: 2,
-            maxItems: 2,
+            type: 'object',
+            required: ['after', 'lat', 'lng'],
+            additionalProperties: false,
+            properties: {
+              after: { type: 'integer', minimum: 0 },
+              lat: { type: 'number', minimum: -90, maximum: 90 },
+              lng: { type: 'number', minimum: -180, maximum: 180 },
+            },
           },
         },
         geometry: {
@@ -338,13 +345,13 @@ function checkUnique<T extends { id: string }>(file: string, items: T[]): void {
  * Формула ДОЛЖНА совпадать с src/admin/components/routing/geometryHash.ts.
  * Изменение здесь требует синхронной правки там.
  *
- * Формат: ANCHORS:{id1}:{lat6},{lng6}|{id2}:{lat6},{lng6}|VIA:{vlat6},{vlng6}|...
- * via_waypoints в формате [lat, lng] (Leaflet-native, не GeoJSON).
+ * Формат: ANCHORS:{id1}:{lat6},{lng6}|{id2}:{lat6},{lng6}|VIA:{after}@{vlat6},{vlng6}|...
+ * via_waypoints — RouteViaWaypoint с полем `after` (индекс anchor'а).
  */
 export function geometryHashFor(
   pointIds: string[],
   coords: Map<string, { lat: number; lng: number }>,
-  viaWaypoints: [number, number][] | undefined,
+  viaWaypoints: RouteViaWaypoint[] | undefined,
 ): string {
   const anchorsStr = pointIds
     .map((id) => {
@@ -354,7 +361,7 @@ export function geometryHashFor(
     .join('|');
 
   const viaStr = (viaWaypoints ?? [])
-    .map(([lat, lng]) => `${lat.toFixed(6)},${lng.toFixed(6)}`)
+    .map((v) => `${v.after}@${v.lat.toFixed(6)},${v.lng.toFixed(6)}`)
     .join('|');
 
   const payload = `ANCHORS:${anchorsStr}|VIA:${viaStr}`;
