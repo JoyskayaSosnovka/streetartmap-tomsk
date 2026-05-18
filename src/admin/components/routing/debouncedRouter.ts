@@ -47,14 +47,17 @@ export function createDebouncedRouter(): DebouncedRouter {
                   waypoints,
                   (err2, routes2) => {
                     if (disposed || myId !== requestId) return;
-                    callback(err2, routes2);
+                    // CRITICAL: callback ДОЛЖЕН вызываться с правильным `this`.
+                    // LRM внутри callback'а делает `this._pendingRequest = null`;
+                    // без .call(context, …) `this` теряется и LRM крашится.
+                    callback.call(context, err2, routes2);
                   },
                   context,
                   options,
                 );
               }, RETRY_DELAY_MS);
             } else {
-              callback(null, routes);
+              callback.call(context, null, routes);
             }
           },
           context,
