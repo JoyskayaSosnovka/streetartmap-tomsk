@@ -103,6 +103,8 @@ export interface Route extends Auditable {
   total_distance_m?: number;
   total_duration_s?: number;
   cover_image?: string;
+  /** Hex-цвет линии маршрута на публичной карте. Default — '#b8ff3d' (фирменный accent). */
+  color?: string;
 }
 
 export interface SiteConfig {

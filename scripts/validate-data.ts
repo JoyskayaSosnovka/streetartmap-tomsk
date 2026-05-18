@@ -18,6 +18,7 @@
 
 import { readFileSync, existsSync } from 'node:fs';
 import { resolve } from 'node:path';
+import { fileURLToPath } from 'node:url';
 import { createHash } from 'node:crypto';
 import Ajv, { type ErrorObject } from 'ajv';
 import addFormats from 'ajv-formats';
@@ -315,6 +316,7 @@ const routeSchema = {
         total_distance_m: { type: 'number', minimum: 0 },
         total_duration_s: { type: 'number', minimum: 0 },
         cover_image: { type: 'string' },
+        color: { type: 'string', pattern: HEX_COLOR_RE.source },
       },
     },
   ],
@@ -339,7 +341,7 @@ function checkUnique<T extends { id: string }>(file: string, items: T[]): void {
  * Формат: ANCHORS:{id1}:{lat6},{lng6}|{id2}:{lat6},{lng6}|VIA:{vlat6},{vlng6}|...
  * via_waypoints в формате [lat, lng] (Leaflet-native, не GeoJSON).
  */
-function geometryHashFor(
+export function geometryHashFor(
   pointIds: string[],
   coords: Map<string, { lat: number; lng: number }>,
   viaWaypoints: [number, number][] | undefined,
@@ -471,4 +473,8 @@ function main(): void {
   );
 }
 
-main();
+// Запускаем main() только если файл вызван напрямую (tsx scripts/validate-data.ts),
+// а не при импорте из других скриптов (например scripts/seed-routes.ts).
+if (process.argv[1] && fileURLToPath(import.meta.url) === resolve(process.argv[1])) {
+  main();
+}

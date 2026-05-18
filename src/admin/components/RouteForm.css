@@ -160,6 +160,47 @@
   cursor: not-allowed;
 }
 
+/* ---- Color input + hint ---- */
+
+.route-form__color-row {
+  display: flex;
+  align-items: center;
+  gap: 0.625rem;
+}
+
+.route-form__color-row input[type='color'] {
+  width: 44px;
+  height: 32px;
+  padding: 2px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--bg-elevated);
+  cursor: pointer;
+  flex-shrink: 0;
+  box-sizing: border-box;
+}
+
+.route-form__color-row input[type='color']:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+
+.route-form__color-hex {
+  font-family: monospace;
+  font-size: 0.8125rem;
+  color: var(--text-muted);
+  text-transform: lowercase;
+  font-variant-numeric: tabular-nums;
+}
+
+.route-form__hint {
+  display: block;
+  margin-top: 0.35rem;
+  font-size: 0.75rem;
+  color: var(--text-subtle);
+  line-height: 1.35;
+}
+
 /* ---- Поиск точек ---- */
 
 .route-form__search {

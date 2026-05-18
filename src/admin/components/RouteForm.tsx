@@ -30,6 +30,7 @@ interface RouteDraft {
   status: ContentStatus;
   name: string;
   description: string;
+  color: string;
   point_ids: string[];
   via_waypoints: [number, number][];
   geometry: RouteGeometry | null;
@@ -45,6 +46,7 @@ function emptyDraft(): RouteDraft {
     status: 'archived',
     name: '',
     description: '',
+    color: '#b8ff3d',
     point_ids: [],
     via_waypoints: [],
     geometry: null,
@@ -59,6 +61,7 @@ function routeToDraft(r: Route): RouteDraft {
     status: r.status,
     name: r.name,
     description: r.description ?? '',
+    color: r.color ?? '#b8ff3d',
     point_ids: [...r.point_ids],
     via_waypoints: r.via_waypoints
       ? r.via_waypoints.map((p): [number, number] => [p[0], p[1]])
@@ -462,6 +465,7 @@ export function RouteForm({ routeId }: { routeId: string }): JSX.Element {
         geometry_hash,
         ...(draft.total_distance_m !== null ? { total_distance_m: draft.total_distance_m } : {}),
         ...(draft.total_duration_s !== null ? { total_duration_s: draft.total_duration_s } : {}),
+        ...(draft.color && draft.color !== '#b8ff3d' ? { color: draft.color } : {}),
         // Auditable поля заполняются в saveRoute
         created_at: '',
         created_by: '',
@@ -605,6 +609,26 @@ export function RouteForm({ routeId }: { routeId: string }): JSX.Element {
                     }))
                   }
                 />
+              </label>
+              <label class="route-form__field">
+                <span>Цвет на карте</span>
+                <div class="route-form__color-row">
+                  <input
+                    type="color"
+                    value={draft.color}
+                    onInput={(e) =>
+                      setDraft((d) => ({
+                        ...d,
+                        color: (e.currentTarget as HTMLInputElement).value,
+                      }))
+                    }
+                  />
+                  <span class="route-form__color-hex">{draft.color}</span>
+                </div>
+                <small class="route-form__hint">
+                  Применяется на публичной карте. В редакторе превью маршрута всегда отображается
+                  фирменным зелёным.
+                </small>
               </label>
               <label class="route-form__field">
                 <span>Статус</span>

@@ -17,7 +17,7 @@ export interface RouteLayerOptions {
  * Крайние точки route.geometry всегда подменяются реальными координатами
  * из pointsById, чтобы избежать расхождения при редактировании точек.
  *
- * Polyline: подложка (чёрная, opacity 0.15) + основная (--accent, #b8ff3d).
+ * Polyline: подложка (чёрная, opacity 0.15) + основная (route.color ?? --accent, #b8ff3d).
  * interactive: false — не перехватывает клики маркеров.
  */
 export function createRouteLayer(opts: RouteLayerOptions): L.LayerGroup {
@@ -42,7 +42,7 @@ export function createRouteLayer(opts: RouteLayerOptions): L.LayerGroup {
 
   // Основная линия (акцент)
   L.polyline(latlngs, {
-    color: '#b8ff3d',
+    color: route.color ?? '#b8ff3d',
     weight: 3,
     opacity: 0.9,
     interactive: false,
