@@ -24,20 +24,6 @@
       "vidy-ryb",
       "vcwall"
     ],
-    "via_waypoints": [
-      [
-        56.497575992648194,
-        84.94035522104797
-      ],
-      [
-        56.498815326184626,
-        84.93950520744427
-      ],
-      [
-        56.5009221002533,
-        84.93801367413968
-      ]
-    ],
     "geometry": {
       "type": "LineString",
       "coordinates": [
@@ -2147,7 +2133,7 @@
         ]
       ]
     },
-    "geometry_hash": "e385431e91fcb3aedcf0c5c2500d3da675e33a4e2080c1d4ca49117d1c54936c",
+    "geometry_hash": "2950b991cae8f66cc0f394f4a79c9412a6a7ceeb82110c40f96b5d99b14befbc",
     "total_distance_m": 6910,
     "total_duration_s": 5668,
     "created_at": "2026-05-18T06:11:01.057Z",
