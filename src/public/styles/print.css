@@ -1,0 +1,119 @@
+/* ============================================================
+ * Режим печати.
+ *
+ * Активируется автоматически при Ctrl+P / Save as PDF.
+ * Идея: показать только карту на всю страницу, скрыть всё UI,
+ * утолстить линию маршрута, слегка уменьшить маркеры — чтобы
+ * маршрут читался поверх них на бумаге.
+ *
+ * Формат бумаги (A3 vs A4) выбирается в диалоге печати браузера.
+ * Соотношение сторон у А-серии одинаковое (1:√2), композиция
+ * на обоих листах идентична.
+ *
+ * Перед печатью:
+ *   1. Включить нужный маршрут в фильтрах.
+ *   2. Подогнать viewport (зум + пан) чтобы маршрут попал целиком.
+ *   3. Ctrl+P → "Save as PDF" или "Microsoft Print to PDF".
+ *   4. В диалоге: Layout = Landscape (горизонтальный),
+ *      Paper size = A4 или A3, Margins = None,
+ *      Background graphics = ON (иначе тайлы не пропечатаются!).
+ * ============================================================ */
+
+@media print {
+  /* Принудительно печатать фоновые изображения и цвета.
+     Без этого Chrome по умолчанию выкидывает background-image тайлы. */
+  * {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  /* Полностраничная карта без полей */
+  @page {
+    margin: 0;
+    /* size не задаём — пусть пользователь выбирает A4/A3/landscape в диалоге.
+       Если хочется зафиксировать: size: A4 landscape; */
+  }
+
+  html,
+  body {
+    width: 100%;
+    height: 100%;
+    margin: 0 !important;
+    padding: 0 !important;
+    overflow: hidden !important;
+    background: #fff !important;
+  }
+
+  /* Скрываем весь UI: фильтр-панель, тема-тоггл, лого, кнопки, попапы и т.п.
+     Карта остаётся видна — у Leaflet-контейнера стандартный класс. */
+  .filter-panel,
+  .filter-sheet,
+  .filter-sheet-backdrop,
+  .filter-fab,
+  .theme-toggle,
+  .logo,
+  .leaflet-control-container,
+  .leaflet-popup,
+  .leaflet-tooltip,
+  .attribution-pill {
+    display: none !important;
+  }
+
+  /* Карта на всю страницу */
+  .leaflet-container {
+    position: fixed !important;
+    inset: 0 !important;
+    width: 100vw !important;
+    height: 100vh !important;
+    background: #fff !important;
+  }
+
+  /* ---- Маркеры ---- */
+  /* Уменьшаем чуть-чуть (с 36 до 26px), чтобы маршрут не перекрывался,
+     но точки всё ещё были опознаваемы как ориентир. */
+  .marker {
+    width: 26px !important;
+    height: 26px !important;
+  }
+  .marker__icon {
+    width: 13px !important;
+    height: 13px !important;
+  }
+  /* Поправляем смещение, потому что Leaflet ставит iconAnchor=18,18
+     (половина от 36); при изменении размера через CSS центр маркера
+     сместится. Компенсируем translate. */
+  .leaflet-marker-icon.marker {
+    margin-left: -13px !important;
+    margin-top: -13px !important;
+  }
+
+  /* Hover/active state не нужен на печати */
+  .marker__ring {
+    transform: none !important;
+    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.25) !important;
+    transition: none !important;
+  }
+
+  /* Утраченные точки на печати показываем тоже, но бледно */
+  .marker--lost .marker__ring {
+    opacity: 0.35 !important;
+  }
+
+  /* ---- Линия маршрута ---- */
+  /* На бумаге тонкая линия теряется. Утолщаем подложку и основную.
+     stroke-width перебивает inline weight из RouteLayer.ts. */
+  .leaflet-overlay-pane svg .route-line--shadow {
+    stroke-width: 8 !important;
+    stroke-opacity: 0.25 !important;
+  }
+  .leaflet-overlay-pane svg .route-line--main {
+    stroke-width: 5 !important;
+    stroke-opacity: 1 !important;
+  }
+
+  /* Прячем элементы управления зумом и атрибуцию */
+  .leaflet-control-zoom,
+  .leaflet-control-attribution {
+    display: none !important;
+  }
+}

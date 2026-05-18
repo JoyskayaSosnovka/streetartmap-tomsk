@@ -9,6 +9,8 @@ import './styles/markers.css';
 import './styles/app.css';
 import './components/FilterPanel.css';
 import './components/PointPopup.css';
+// Стили для печати — переопределения активируются только в @media print
+import './styles/print.css';
 
 // Инициализируем тему (импорт инициализирует signals и подписки)
 import './hooks/useTheme.ts';

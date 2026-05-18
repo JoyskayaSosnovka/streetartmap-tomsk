@@ -38,6 +38,7 @@ export function createRouteLayer(opts: RouteLayerOptions): L.LayerGroup {
     opacity: 0.15,
     interactive: false,
     bubblingMouseEvents: false,
+    className: 'route-line route-line--shadow',
   }).addTo(group);
 
   // Основная линия (акцент)
@@ -47,6 +48,7 @@ export function createRouteLayer(opts: RouteLayerOptions): L.LayerGroup {
     opacity: 0.9,
     interactive: false,
     bubblingMouseEvents: false,
+    className: 'route-line route-line--main',
   }).addTo(group);
 
   group.addTo(map);

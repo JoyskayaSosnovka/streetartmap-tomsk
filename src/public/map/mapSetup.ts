@@ -37,6 +37,10 @@ export function createTileLayer(theme: MapTheme): L.TileLayer {
     keepBuffer: 6,
     updateWhenIdle: false,
     updateWhenZooming: true,
+    // {r} в URL → '@2x' suffix при HiDPI экранах и при печати в PDF.
+    // На retina-дисплеях даёт чёткую карту; на принтере — половина DPI,
+    // но это всё ещё лучше чем 1x тайлы.
+    detectRetina: true,
   });
 }
 
